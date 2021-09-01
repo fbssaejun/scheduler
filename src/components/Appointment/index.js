@@ -8,7 +8,6 @@ export default function Appointment(props) {
 
   const {time, interview} = props
 
-
   return (
     <article className="apoointment">
       <Header time={time} />
