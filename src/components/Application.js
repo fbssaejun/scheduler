@@ -46,16 +46,21 @@ const appointments = [
 
 export default function Application(props) {
 
-  const [currentDay, setCurrentDay] = useState("Monday")
-  const [days, setDays] = useState([])
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
 
   const AppointmentArray = appointments.map(appointment => {
     return <Appointment key={appointment.id} {...appointment} />
   })
 
+  const setDay = day => setState(prev => ({ ...prev, day }));
+  const setDays = days => setState(prev => ({ ...prev, days }));
+
   useEffect(() => {
-    axios.get('/api/days')
-    .then(res => setDays([...res.data]))
+    axios.get('/api/days').then(res => setDays(res.data))
   }, [])
 
   return (
@@ -63,7 +68,7 @@ export default function Application(props) {
       <section className="sidebar">
       <img className="sidebar--centered" src="images/logo.png" alt="Interview Scheduler" />
       <hr className="sidebar__separator sidebar--centered" />
-      <nav className="sidebar__menu"><DayList days={days} day={currentDay} setDay={setCurrentDay}/></nav>
+      <nav className="sidebar__menu"><DayList days={state.days} day={state.day} setDay={setDay}/></nav>
       <img className="sidebar__lhl sidebar--centered" src="images/lhl.png" alt="Lighthouse Labs" />
       </section>
       <section className="schedule">
