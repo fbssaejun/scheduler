@@ -19,10 +19,15 @@ export default function Application(props) {
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const AppointmentArray = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
-    return <Appointment key={appointment.id} interview={interview}  interviewers={dailyInterviewers} {...appointment} />
+    return <Appointment key={appointment.id} interview={interview}  interviewers={dailyInterviewers} bookInterview={bookInterview} {...appointment} />
   })
 
   const setDay = day => setState(prev => ({ ...prev, day }));
+
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
   //Api requests
   useEffect(() => {
     Promise.all([
@@ -43,7 +48,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {AppointmentArray}
-        <Appointment key="last" time="5pm"/>
+        <Appointment key="last" time="5pm" bookInterview={bookInterview}/>
       </section>
     </main>
   )
