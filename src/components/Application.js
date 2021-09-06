@@ -21,19 +21,29 @@ export default function Application(props) {
       interview: { ...interview }
     };
 
+    // const appointment = {
+    //   id: state.appointments[id].id,
+    //   time: state.appointments[id].time,
+    //   interview : interview
+    // }
+
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
 
-    setState({
-      ...state,
-      appointments
-    });
+    //Saves changes(data) to the scheduler API
+    return axios.put(`/api/appointments/${id}`, appointment)
+    .then(() => {
+      setState({
+        ...state,
+        appointments
+      });
+    })
+
   };
 
   const dailyInterviewers = getInterviewersForDay(state, state.day);
-  console.log(dailyInterviewers)
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const AppointmentArray = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
