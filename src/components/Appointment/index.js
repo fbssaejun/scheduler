@@ -22,6 +22,7 @@ export default function Appointment(props) {
       interviewer
     }
     bookInterview(id, interview)
+    transition(SHOW)
   }
 
   return (
@@ -32,7 +33,7 @@ export default function Appointment(props) {
       {mode === SHOW && (
         <Show
         student={interview.student}
-        interviewer={interview.interviewer}
+        interviewer={interviewers.find(interviewer => interviewer.id === interview.interviewer)}
         />
         )}
     </article>
