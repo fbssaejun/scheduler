@@ -37,6 +37,7 @@ export default function Application(props) {
 
   };
 
+  //Deletes schedule from api server and updates state
   function cancelInterview(id) {
 
     const appointment = {
