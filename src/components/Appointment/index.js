@@ -7,6 +7,7 @@ import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Confirm from "./Confirm";
+import Error from "./Error";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -15,6 +16,9 @@ const SAVING = "SAVING";
 const DELETE = "DELETE";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
+
 
 export default function Appointment(props) {
   const { time, interview, interviewers, bookInterview, id, onDelete } = props;
@@ -32,13 +36,19 @@ export default function Appointment(props) {
     .then(() => {
       transition(SHOW)
     })
+    .catch(() => {
+      transition(ERROR_SAVE, true)
+    })
   }
 
   const deleteInterview = () => {
-    transition(DELETE)
+    transition(DELETE, true)
     onDelete(id)
     .then(() => {
       transition(EMPTY)
+    })
+    .catch(() => {
+      transition(ERROR_DELETE, true)
     })
   }
 
@@ -52,6 +62,8 @@ export default function Appointment(props) {
       {mode === DELETE && <Status message="Deleting..." />}
       {mode === EDIT && <Form interviewers={interviewers} interviewer={interview.interviewer}
       onCancel={back} onSave={save} name={interview.student}/>}
+      {mode === ERROR_SAVE  && <Error message="Cannot save" onClose={back}/>}
+      {mode === ERROR_DELETE && <Error message="Cannot delete" onClose={back}/>}
       {mode === SHOW && (
         <Show
         student={interview.student}
