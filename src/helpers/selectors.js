@@ -16,3 +16,10 @@ export function getInterviewersForDay(state, day) {
     return state.interviewers[interviewer]
   })
 };
+
+export function getSpotsForDay(days, appointments, dayName) {
+  const findDayName = days.find(dayList => dayList.name === dayName);
+  const reaminingSpots = findDayName.appointments.filter(appointment => appointments[appointment].interview === null).length;
+  return days.map(day => day.name === dayName ? {...day, spots: reaminingSpots} : day);
+}
+

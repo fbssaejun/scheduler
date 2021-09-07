@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getSpotsForDay } from '../helpers/selectors';
 
 export default function useApplicationData(initial) {
 
@@ -12,26 +13,28 @@ export default function useApplicationData(initial) {
   });
 
   const setDay = day => setState(prev => ({ ...prev, day }));
-
+  
   //Saves changes(data) to the scheduler API
   function bookInterview(id, interview) {
-  
-
+    
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      interview: { ...interview },
     };
-
+    
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
 
+    const updatedSpots = getSpotsForDay(state.days, appointments, state.day)
+
     return axios.put(`/api/appointments/${id}`, appointment)
     .then(() => {
       setState({
         ...state,
-        appointments
+        appointments,
+        days: updatedSpots
       });
     })
 
@@ -50,11 +53,14 @@ export default function useApplicationData(initial) {
       [id]: appointment
     }
 
+    const updatedSpots = getSpotsForDay(state.days, appointments, state.day)
+
     return axios.delete(`/api/appointments/${id}`)
     .then(() => {
       setState({
         ...state,
-        appointments
+        appointments,
+        days: updatedSpots
       })
     })
   };
