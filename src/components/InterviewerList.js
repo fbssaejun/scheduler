@@ -27,6 +27,7 @@ export default function InterviewerList(props) {
 
 }
 
+//Checks if interviewers prop is an array being passed in 
 InterviewerList.propTypes = {
   interviewers: PropTypes.array.isRequired
 };
