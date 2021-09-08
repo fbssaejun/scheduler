@@ -53,9 +53,9 @@ export default function Appointment(props) {
   }
 
   return (
-    <article className="apoointment">
-      <Header time={time} />
-      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+    <article className="appointment">
+    <Header time={time} />
+      {mode === EMPTY && <Empty key={id} onAdd={() => transition(CREATE)} />}
       {mode === CREATE && <Form interviewers={interviewers} onCancel={back} onSave={save} />}
       {mode === SAVING && <Status message ="Saving..."/>}
       {mode === CONFIRM && <Confirm onConfirm={deleteInterview} onCancel={back} message="Are you sure you would like to delete?"/> }
@@ -70,6 +70,7 @@ export default function Appointment(props) {
         interviewer={interviewers.find(interviewer => interviewer.id === interview.interviewer)}
         onDelete={() => transition(CONFIRM)}
         onEdit={() => transition(EDIT)}
+        key={id}
         />
         )}
     </article>
