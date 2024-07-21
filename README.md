@@ -4,6 +4,7 @@
 
 Interview scheduler is an app that allows users to book an interview among existing interviewers. Currently interview scheduler is deployed via **Netlify**. https://61394e5175b5ee33b688a68a--silly-keller-b6e6c1.netlify.app/ .
 
+API: https://github.com/fbssaejun/scheduler-api
 
 ## Features
 
@@ -78,7 +79,7 @@ npm run storybook
 - "prop-types"
 - "react-test-renderer"
 
-## Continous Integration 
+## Continous Integration
 
 *Production deployed to CircleCI*
 
